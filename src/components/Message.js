@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { auth, db } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import React, { useEffect, useState } from 'react'
+import { auth, db } from '../firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 
 const Message = ({ message }) => {
-  const [user] = useAuthState(auth);
-  const [dateTime, setDateTime] = useState("");
-  const [editMode, setEditMode] = useState(false);
-  const [updateText, setUpdatedText] = useState(message.text);
+  const [user] = useAuthState(auth)
+  const [dateTime, setDateTime] = useState('')
+  const [editMode, setEditMode] = useState(false)
+  const [updateText, setUpdatedText] = useState(message.text)
 
   useEffect(() => {
-    const ts = (message && message?.createdAt) || null;
-    const d = new Date(ts?.seconds * 1000 + ts?.nanoseconds / 1e6);
+    const ts = (message && message?.createdAt) || null
+    const d = new Date(ts?.seconds * 1000 + ts?.nanoseconds / 1e6)
 
-    const pad = (n) => n.toString().padStart(2, "0");
-    const h = d.getHours();
+    const pad = (n) => n.toString().padStart(2, '0')
+    const h = d.getHours()
     const formatted =
       `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ` +
-      `${pad(h % 12 || 12)}:${pad(d.getMinutes())} ${h >= 12 ? "PM" : "AM"}`;
-    setDateTime(formatted);
-  }, []);
+      `${pad(h % 12 || 12)}:${pad(d.getMinutes())} ${h >= 12 ? 'PM' : 'AM'}`
+    setDateTime(formatted)
+  }, [message])
 
   const handleDeleteMessage = async () => {
     try {
-      await deleteDoc(doc(db, "messages", message.id));
+      await deleteDoc(doc(db, 'messages', message.id))
     } catch (error) {
-      console.error("Error deleting message:", error);
+      console.error('Error deleting message:', error)
     }
-  };
+  }
 
   const handleUpdateMessage = async () => {
     try {
-      const messageRef = doc(db, "messages", message.id);
+      const messageRef = doc(db, 'messages', message.id)
       await updateDoc(messageRef, {
         text: updateText,
-      });
-      setEditMode(false);
+      })
+      setEditMode(false)
     } catch (error) {
-      console.error("Error updating message:", error);
+      console.error('Error updating message:', error)
     }
-  };
+  }
 
   return (
     <div
-      className={`chat-bubble ${message.uid === user.uid ? "right" : "left"}`}
+      className={`chat-bubble ${message.uid === user.uid ? 'right' : 'left'}`}
     >
       <img className="avatar" src={message.avatar} alt="avatar" />
       <div className="chat-content">
@@ -75,8 +75,8 @@ const Message = ({ message }) => {
                   <i
                     className="fas fa-times"
                     onClick={() => {
-                      setEditMode(false);
-                      setUpdatedText(message.text);
+                      setEditMode(false)
+                      setUpdatedText(message.text)
                     }}
                     title="Cancel"
                   ></i>
@@ -97,7 +97,7 @@ const Message = ({ message }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message
