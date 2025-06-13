@@ -1,38 +1,232 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  font-size: 16px;
+  font-family: "Nunito", sans-serif;
+  overflow-x: hidden;
+}
+
+button,
+input {
+  cursor: pointer;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  width: 100%;
   min-height: 100vh;
+  background-color: #fec5f6;
+  padding-top: 60px;
+  overflow-x: hidden;
+}
+
+.bubble {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-image: url("/src/img/hellokitty1.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: floatUp 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* navbar */
+.nav-bar {
+  padding: 10px 30px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  background-color: #c562af;
+  color: #fff;
+  height: 60px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.nav-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-img {
+  height: 60px;
+}
+.sign-in {
+  border: none;
+  background-color: transparent;
+}
+.sign-in > img {
+  height: 30px;
+  width: auto;
+}
+.sign-out {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  border: 1px solid #b33791;
+  background-color: #b33791;
+  font-weight: 600;
 }
 
-.App-link {
-  color: #61dafb;
+/* welcome page */
+.welcome {
+  padding: 30px;
+  text-align: center;
+  margin-top: 40px;
+  color: #000;
+}
+.welcome :is(h2, p, img) {
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* chat component */
+.messages-wrapper {
+  padding: 30px;
+  margin-bottom: 60px;
+  z-index: 1;
+}
+
+.chat-bubble {
+  border-radius: 20px 20px 20px 0;
+  padding: 15px;
+  background-color: #db8dd0;
+  color: #1c2c4c;
+  width: max-content;
+  max-width: calc(100% - 50px);
+  box-shadow: -2px 2px 1px 1px #db8dd0;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.chat-bubble.right {
+  margin-left: auto;
+  border-radius: 20px 20px 0 20px;
+  background-color: #fff;
+  box-shadow: -2px 2px 1px 1px #db8dd0;
+}
+
+.chat-bubble.left {
+  box-shadow: -2px 2px 1px 1px #fff;
+}
+
+.chat-bubble__left {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.user-time {
+  font-size: 0.8rem;
+}
+
+.action-icons {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.action-icons i {
+  transition: color 0.2s ease;
+  font-size: 0.8rem;
+  color: #b857a7;
+  cursor: pointer;
+}
+
+.action-icons i:hover {
+  color: #c562af;
+}
+
+.user-message {
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+/* send message */
+.send-message {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  padding: 20px 30px;
+  background-color: #db8dd0;
+  display: flex;
+}
+.send-message > input {
+  height: 40px;
+  padding: 10px 10px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  flex-grow: 1;
+  background-color: #fec5f6;
+  color: #1c2c4c;
+  font-size: 1rem;
+}
+.send-message > input:placeholder {
+  color: #ddd;
+}
+.send-message > :is(input, button):focus {
+  outline: none;
+  border-bottom: 1px solid #c562af;
+}
+.send-message > button {
+  width: 70px;
+  height: 40px;
+  padding: 5px 10px;
+  border-radius: 0 5px 5px 0;
+  color: #fff;
+  border: 1px solid #b33791;
+  background-color: #b33791;
+  font-weight: 600;
+}
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) scale(0.3);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1);
+    opacity: 10;
   }
 }
